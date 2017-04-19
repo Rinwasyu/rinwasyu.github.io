@@ -1,2 +1,2 @@
 # kazuhide.github.io
-My site
+My HomePage : http://kazuhidehayashi.github.io/
