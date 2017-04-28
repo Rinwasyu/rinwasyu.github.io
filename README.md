@@ -1,2 +1,2 @@
-# kazuhide.github.io
-My HomePage : http://kazuhidehayashi.github.io/
+# rinwasyu.github.io
+My HomePage : http://rinwasyu.github.io/
