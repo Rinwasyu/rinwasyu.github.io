@@ -1,0 +1,112 @@
+<h1>kotの構造 "kot.c"</h1>
+<p>作成：2018-10-21</p>
+<p>Tag：<a href="#tags/kot">#kot</a> <a href="#tags/programming">#programming</a></p>
+<p>
+<h2>kotとは</h2>
+コマンドライン用のテキストエディタです。<a href="https://github.com/Rinwasyu/kot">GitHubリポジトリ</a><br>
+C言語で書かれています。Ubuntu18.04でテストしています。<br>
+ライセンスは<a href="https://www.gnu.org/licenses/gpl-3.0.ja.html">GPL v3</a>です。<br>
+
+<h2>ソースコードの解説</h2>
+<h3>kot.c</h3>
+kotのメインの処理が書かれています。<br>
+以下は2018-10-21時点のコードです。<br>
+<pre style="overflow:auto;"><code>
+/*
+ * Copyright 2018 Rinwasyu
+ * 
+ * This file is part of kot.
+ * 
+ * Kot is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Kot is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;termios.h&gt;
+
+#define max(a, b) ((a) > (b) ? (a) : (b))
+#define min(a, b) ((a) < (b) ? (a) : (b))
+
+#define DRAW_TITLEBAR_HEIGHT 1
+#define DOC_MAXIMUM_ROWS 2000
+#define DOC_MAXIMUM_COLS 1000
+
+#include "lib/kbhit.c"
+#include "editor.c"
+#include "doc.c"
+#include "cursor.c"
+#include "draw.c"
+#include "key.c"
+
+void setup() {
+	key.init();
+	draw.init();
+	doc.init(&doc);
+	atexit(key.exit);
+	atexit(draw.clear);
+}
+
+int update() {
+	if (editor.fit()) {
+		draw.repaint(&draw);
+	}
+	if (kbhit()) {
+		key.input(&key);
+		draw.repaint(&draw);
+	} else {
+		if (key.mode == ESC) {
+			return 0;
+		}
+	}
+	usleep(1000);
+	return 1;
+}
+
+int main(int argc, char **argv) {
+	setup();
+	if (argc == 1) {
+		doc.new(&doc, "file.txt");
+	} else {
+		doc.open(&doc, argv[1]);
+	}
+	
+	while (update()) {}
+	
+	return 0;
+}
+</code></pre>
+最初の方でヘッダファイルや構成するファイルをインクルードして、マクロ・定数を定義しています。<br>
+<h4>setup関数</h4>
+初期化するコードが書かれています。<br>
+<h4>update関数</h4>
+毎フレーム処理するコードが書かれています。<br>
+エディタの表示をターミナルの大きさに合わせ(editor.fit()のあたり)<br>
+もし入力があったら入力処理をさせます。<br>
+少しの時間処理を停止させ、終了します。
+<h4>main関数</h4>
+main関数は、プログラムの開始時に実行される関数です。<br>
+最初に、setup関数を実行します。<br>
+次に、ドキュメントを作成します。<br>
+<pre><code>./kot something.txt</code></pre>
+のようにファイルが指定されていたらそのファイルを開き、そうでなかったらfile.txtと言う名前のドキュメントを作ります。<br>
+それが終わったらupdate関数を実行し続けるループに入ります。<br>
+update関数の返り値が0だったらループを抜けてプログラムは終了します。<br>
+</p>
+<p><a href="#entries/entries">投稿一覧</a></p>

@@ -1,7 +1,7 @@
-<h2>投稿一覧</h2>
+<h2>#kot</h2>
+<p>kotに関する記事一覧</p>
 <ul>
 	<li><a href="#entries/2">kotの構造 "kot.c"</a>(2018-10-21)</li>
 	<li><a href="#entries/1">kot 0.6.1</a>(2018-10-21)</li>
-	<li><a href="#entries/0">初めてのブログ</a>(2018-10-20)</li>
 </ul>
-<p><a href="#main">メインページ</a></p>
+<p><a href="#tags/tags">タグ一覧</a></p>

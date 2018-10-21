@@ -1,0 +1,13 @@
+<h1>kot 0.6.1</h1>
+<p>作成：2018-10-21</p>
+<p>Tag：<a href="#tags/kot">#kot</a></p>
+<p>
+コマンドライン用テキストエディタ「<a href="https://github.com/Rinwasyu/kot">kot</a>」の version 0.6.1 を公開しました。<br>
+<h3>変更点</h3>
+・バグ修正<br>
+・ファイル保存機能を追加 (Ctrl-s)<br>
+<h3>今後の機能追加予定</h3>
+・Unicode(UTF-8)のサポート<br>
+・横方向スクロール<br>
+</p>
+<p><a href="#entries/entries">投稿一覧</a></p>
