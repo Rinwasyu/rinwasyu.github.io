@@ -1,6 +1,7 @@
 <h2>#kot</h2>
 <p>kotに関する記事一覧</p>
 <ul>
+	<li><a href="#entries/4">kotのバージョン表記方法</a>(2018-11-06)</li>
 	<li><a href="#entries/2">kotの構造 "kot.c"</a>(2018-10-21)</li>
 	<li><a href="#entries/1">kot 0.6.1</a>(2018-10-21)</li>
 </ul>
