@@ -1,0 +1,39 @@
+<h1>LinuxでWi-Fiがつながらない問題に対処した</h1>
+<p>作成：2019-02-06</p>
+<p>Tag：<a href="#tags/linux">#linux</a></p>
+<p>
+LinuxのWi-Fiネットワーク問題を一応解決しました。
+<h2>環境</h2>
+昨年の11月に中古パーツを組み合わせて作ったデスクトップPCです。かなり安めに作りました。<br>
+<h3>Hardware</h3>
+<ul>
+<li>CPU : AMD A10-7850K</li>
+<li>M/B : ASUS A88XM-A</li>
+<li>RAM : DDR3-1600 16GB</li>
+<li>HDD : Hitachi 2TB</li>
+<li>Wi-Fi Chip : rtl8192cu</li>
+</ul>
+<h3>Software</h3>
+<ul>
+<li>OS : Fedora 29</li>
+<li>Kernel : Linux 4.20.6-200</li>
+<li>Desktop : GNOME 3 / MATE 1.20.4
+</ul>
+<h2>現象</h2>
+Wi-Fiがよく切断されました。<br>
+<h2>原因</h2>
+LinuxのRTL8192cu driverは不具合を起こすと知られています。<br>
+Wi-Fi親機と離れていて、電波が強くありません。<br>
+CPU負荷が大きくなるとよく切断します。<br>
+<h2>対策</h2>
+rtl8192cu driverの対策をしましたがさらに不安定になったためもとに戻しました。<br>
+電波の届きやすい窓のそばにWi-Fi子機を置きました。<br>
+Desktop環境をGNOMEからMATEへ移行しました。<br>
+<a href="https://wiki.archlinux.jp/index.php/NetworkManager">
+ArchWiki</a>を参考にして、MAC addressを固定しました。また、BSSIDを指定しました。<br>
+<h2>結果</h2>
+やや改善しました。
+<h2>感想</h2>
+ネットワークの問題が減りうれしいです。
+</p>
+<p><a href="#entries/entries">投稿一覧</a></p>
