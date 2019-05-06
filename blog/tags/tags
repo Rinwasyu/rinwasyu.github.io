@@ -1,4 +1,4 @@
-<h2>タグ一覧</h2>
+<h2 id="t">タグ一覧</h2>
 <ul>
 	<li><a href="#tags/linux">#linux</a></li>
 	<a href="#tags/procon">#procon</a>

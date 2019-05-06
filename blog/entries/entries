@@ -1,4 +1,4 @@
-<h2>投稿一覧</h2>
+<h2 id="t">投稿一覧</h2>
 <ul>
 	<li><a href="#entries/6">LinuxでWi-Fiがつながらない問題に対処した</a>(2019-02-06)</li>
 	<li><a href="#entries/5">kot v0.6.3.2</a>(2018-11-09)</li>

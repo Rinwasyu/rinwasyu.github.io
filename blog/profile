@@ -1,4 +1,4 @@
-<h2>Profile</h2>
+<h2 id="t">Profile</h2>
 <p>高専4年生です。GNU/Linuxをよく使います。</p>
 <ul>
 	<li>Github : <a href="https://github.com/Rinwasyu">Rinwasyu</a></li>

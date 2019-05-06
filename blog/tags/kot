@@ -1,4 +1,4 @@
-<h2>#kot</h2>
+<h2 id="t">#kot</h2>
 <p>kotに関する記事一覧</p>
 <ul>
 	<li><a href="#entries/5">kot v0.6.3.2</a>(2018-11-09)</li>

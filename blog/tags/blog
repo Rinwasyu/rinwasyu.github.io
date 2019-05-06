@@ -1,4 +1,4 @@
-<h2>#blog</h2>
+<h2 id="t">#blog</h2>
 <p>blogに関する記事一覧</p>
 <ul>
 	<li><a href="#entries/3">高専プロコンに参加した</a>(2018-11-04)</li>
