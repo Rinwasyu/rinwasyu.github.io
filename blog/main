@@ -4,6 +4,7 @@
 </ul>
 <h2>投稿</h2>
 <ul>
+	<li><a href="#entries/7">SecHack365 '19 神奈川回の感想</a>(2019-06-16)</li>
 	<li><a href="#entries/6">LinuxでWi-Fiがつながらない問題に対処した</a>(2019-02-06)</li>
 	<li><a href="#entries/5">kot v0.6.3.2</a>(2018-11-09)</li>
 	<li><a href="#entries/4">kotのバージョン表記方法</a>(2018-11-06)</li>
@@ -15,6 +16,7 @@
 </ul>
 <h2>タグ</h2>
 <ul>
+	<li><a href="#tags/sechack365">#SecHack365</a></li>
 	<li><a href="#tags/linux">#linux</a></li>
 	<li><a href="#tags/procon">#procon</a></li>
 	<li><a href="#tags/programming">#programming</a></li>
