@@ -1,12 +1,48 @@
 <h2 id="t">投稿一覧</h2>
-<ul>
-	<li><a href="#entries/7">SecHack365 '19 神奈川回の感想</a>(2019-06-16)</li>
-	<li><a href="#entries/6">LinuxでWi-Fiがつながらない問題に対処した</a>(2019-02-06)</li>
-	<li><a href="#entries/5">kot v0.6.3.2</a>(2018-11-09)</li>
-	<li><a href="#entries/4">kotのバージョン表記方法</a>(2018-11-06)</li>
-	<li><a href="#entries/3">高専プロコンに参加した</a>(2018-11-04)</li>
-	<li><a href="#entries/2">kotの構造 "kot.c"</a>(2018-10-21)</li>
-	<li><a href="#entries/1">kot 0.6.1</a>(2018-10-21)</li>
-	<li><a href="#entries/0">初めてのブログ</a>(2018-10-20)</li>
-</ul>
+<div class="e">
+	<div>
+		<a href="#entries/7">SecHack365 '19 神奈川回の感想</a>
+		<p>作成：2019-06-16</p>
+		<p><a class="tag" href="#tags/sechack365">#SecHack365</a></p>
+	</div>
+	<div>
+		<a href="#entries/6">LinuxでWi-Fiがつながらない問題に対処した</a>
+		<p>作成：2019-02-06</p>
+		<p><a class="tag" href="#tags/linux">#linux</a></p>
+	</div>
+	<div>
+		<a href="#entries/5">kot v0.6.3.2</a>
+		<p>作成：2018-11-09</p>
+		<p><a class="tag" href="#tags/kot">#kot</a></p>
+	</div>
+	<div>
+		<a href="#entries/4">kotのバージョン表記方法</a>
+		<p>作成：2018-11-06</p>
+		<p><a class="tag" href="#tags/kot">#kot</a></p>
+	</div>
+	<div>
+		<a href="#entries/3">高専プロコンに参加した</a>
+		<p>作成：2018-11-04</p>
+		<p>
+			<a class="tag" href="#tags/procon">#procon</a>
+			<a class="tag" href="#tags/programming">#programming</a>
+			<a class="tag" href="#tags/blog">#blog</a>
+		</p>
+	</div>
+	<div>
+		<a href="#entries/2">kotの構造 "kot.c"</a>
+		<p>作成：2018-10-21</p>
+		<p><a class="tag" href="#tags/kot">#kot</a></p>
+	</div>
+	<div>
+		<a href="#entries/1">kot 0.6.1</a>
+		<p>作成：2018-10-21</p>
+		<p><a class="tag" href="#tags/kot">#kot</a></p>
+	</div>
+	<div>
+		<a href="#entries/0">初めてのブログ</a>
+		<p>作成：2018-10-20</p>
+		<p><a class="tag" href="#tags/blog">#blog</a></p>
+	</div>
+</div>
 <p><a href="#main">メインページ</a></p>

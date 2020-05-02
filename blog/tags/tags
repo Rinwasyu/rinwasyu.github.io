@@ -1,10 +1,28 @@
 <h2 id="t">タグ一覧</h2>
-<ul>
-	<li><a href="#tags/sechack365">#SecHack365</a></li>
-	<li><a href="#tags/linux">#linux</a></li>
-	<a href="#tags/procon">#procon</a>
-	<li><a href="#tags/programming">#programming</a></li>
-	<li><a href="#tags/kot">#kot</a></li>
-	<li><a href="#tags/blog">#blog</a></li>
-</ul>
+<div class="e">
+	<div>
+		<a class="tag" href="#tags/sechack365">#SecHack365</a>
+		<p>SecHack365に関する記事。</p>
+	</div>
+	<div>
+		<a class="tag" href="#tags/linux">#linux</a>
+		<p>Linuxに関する記事。</p>
+	</div>
+	<div>
+		<a class="tag" href="#tags/procon">#procon</a>
+		<p>高専プロコンに関する記事。</p>
+	</div>
+	<div>
+		<a class="tag" href="#tags/programming">#programming</a>
+		<p>プログラミングに関する記事。</p>
+	</div>
+	<div>
+		<a class="tag" href="#tags/kot">#kot</a>
+		<p>自作のコマンドライン用テキストエディタ「kot」に関する記事。</p>
+	</div>
+	<div>
+		<a class="tag" href="#tags/blog">#blog</a>
+		<p>日記。</p>
+	</div>
+</div>
 <p><a href="#main">メインページ</a>

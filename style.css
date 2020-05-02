@@ -1,0 +1,70 @@
+* {
+    font-family: Consolas,'Noto Sans Mono','MS PGothic',Osaka,Monaco,Monospace;
+}
+a,
+a:active,
+a:hover,
+a:link,
+a:visited {
+    color: blue;
+}
+html {
+}
+#h {
+    background: white;
+    box-shadow: 0 1px rgba(0,0,0,0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 8vh;
+    font-size: 5vh;
+    text-align: center;
+}
+#h a {
+    text-decoration: none;
+    vertical-align: middle;
+}
+#c {
+    width: 50%;
+    overflow: auto;
+    font-size: 17px;
+    margin: 0 auto;
+    visibility: hidden;
+}
+.e {
+	width: 100%;
+}
+.e div {
+	width: 90%;
+	margin: 0 auto;
+	margin-bottom: 2rem;
+}
+.e a {
+	font-size: 1.1rem;
+}
+.e p {
+	font-size: 0.9rem;
+}
+.tag, .tag:active, .tag:hover, .tag:link, .tag:visited {
+	background-color: gray;
+	color: white;
+	text-decoration: none;
+	font-size: 0.9rem;
+}
+@media only screen and (max-width:750px) {
+    #c {
+        width: 100%;
+    }
+}
+#f {
+    text-align: right;
+    visibility: hidden;
+}
+body {
+    padding: 8vh 0 0;
+}
+
+li {
+    list-style: none;
+}

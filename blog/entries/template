@@ -1,6 +1,6 @@
 <h1 id="t">タイトル</h1>
 <p>作成：0000-00-00</p>
-<p>Tag：<a href="#tags/template">#template</a></p>
+<p>Tag：<a class="tag" href="#tags/template">#template</a></p>
 <p>
 本文
 </p>

@@ -1,7 +1,19 @@
 <h2 id="t">#blog</h2>
 <p>blogに関する記事一覧</p>
-<ul>
-	<li><a href="#entries/3">高専プロコンに参加した</a>(2018-11-04)</li>
-	<li><a href="#entries/0">初めてのブログ</a>(2018-10-20)</li>
-</ul>
+<div class="e">
+	<div>
+		<a href="#entries/3">高専プロコンに参加した</a>
+		<p>作成：2018-11-04</p>
+		<p>
+			<a class="tag" href="#tags/procon">#procon</a>
+			<a class="tag" href="#tags/programming">#programming</a>
+			<a class="tag" href="#tags/blog">#blog</a>
+		</p>
+	</div>
+	<div>
+		<a href="#entries/0">初めてのブログ</a>
+		<p>作成：2018-10-20</p>
+		<p><a class="tag" href="#tags/blog">#blog</a></p>
+	</div>
+</div>
 <p><a href="#tags/tags">タグ一覧</a></p>

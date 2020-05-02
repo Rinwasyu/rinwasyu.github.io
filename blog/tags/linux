@@ -1,6 +1,10 @@
 <h2 id="t">#linux</h2>
 <p>linuxに関する記事一覧</p>
-<ul>
-	<li><a href="#entries/6">LinuxでWi-Fiがつながらない問題に対処した</a>(2019-02-06)</li>
-</ul>
+<div class="e">
+	<div>
+		<a href="#entries/6">LinuxでWi-Fiがつながらない問題に対処した</a>
+		<p>作成：2019-02-06</p>
+		<p><a class="tag" href="#tags/linux">#linux</a></p>
+	</div>
+</div>
 <p><a href="#tags/tags">タグ一覧</a></p>
