@@ -1,0 +1,45 @@
+<h1 id="t">C言語でリンク時に重複定義エラーが出るのをなおした</h1>
+<p>作成：2020-05-05</p>
+<p>Tag：
+	<a class="tag" href="#tags/c">#c</a>
+	<a class="tag" href="#tags/programming">#programming</a>
+</p>
+<p>
+ヘッダファイルで変数定義をして、複数のソースファイルからincludeした上で分割コンパイルすると、リンク時「multiple definition of ***」のようなエラーが出ました。<br>
+変数定義の先頭に「extern」を付けることでエラーをなくしました。
+<h2>環境</h2>
+<ul>
+	<li>OS : Fedora 32</li>
+	<li>コンパイラ : gcc 10.0.1</li>
+	<li>リンカ : GNU ld 2.34</li>
+</ul>
+<h2>状況</h2>
+自作のコマンドライン用テキストエディタ<a href="https://github.com/Rinwasyu/kot">kot</a>をFedora 32でコンパイルしようとしたところ、エラーが出ました。エラーは複数行あり省略しています。
+<pre><code>
+/usr/bin/ld: cursor.o:(.bss+0x30): multiple definition of `editor'; editor.o:(.data+0x0): first defined here
+/usr/bin/ld: cursor.o:(.bss+0x40): multiple definition of `ws'; editor.o:(.data+0x0): first defined here
+...
+</code></pre>
+メインの開発ではLubuntu 18.04とgcc 7.5.0とGNU ld 2.30を使用していて、エラーは出ていませんでした。
+<h2>原因</h2>
+エラーの原因は、ヘッダファイルで変数定義をしていたことです。<br>
+kotでは、機能ごとにソースファイルをわけ、それぞれヘッダファイルを作成し、必要な場合はそれをインクルードしています。<br>
+そして、それぞれを分割コンパイルしリンカでリンクをします。その際に、それぞれのオブジェクトファイルで変数が定義されているため、重複定義となりリンクエラーとなってしまうようです。<br>
+実際のヘッダファイルでは、変数定義は以下のように書かれていました。以下の例では、struct Cursor型の変数（構造体）であるcursorを定義しています。
+<pre><code>
+struct Cursor cursor;
+</code></pre>
+
+<h2>修正</h2>
+ヘッダファイルの変数定義を以下のように修正しました。
+<pre><code>
+extern struct Cursor cursor;
+</code></pre>
+externを使うことで、実際は変数を定義せずに外部ファイルで定義されている変数（グローバル変数）を使用できます。<br>
+これによって、リンクエラーも起こりませんでした。
+
+<h2>余談</h2>
+Ubuntu 18.04の環境では、重複定義がある場合もリンクに成功します。どんな条件でエラーになるのか、調査が必要そうです。（やるとは言っていない）
+
+</p>
+<p><a href="#entries/entries">投稿一覧</a></p>

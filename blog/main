@@ -7,6 +7,14 @@
 <h2>投稿</h2>
 <div class="e">
 	<div>
+		<a href="#entries/8">C言語でリンク時に重複定義エラーが出るのをなおした</a>
+		<p>作成：2020-05-05</p>
+		<p>
+			<a class="tag" href="#tags/c">#c</a>
+			<a class="tag" href="#tags/programming">#programming</a>
+		</p>
+	</div>
+	<div>
 		<a href="#entries/7">SecHack365 '19 神奈川回の感想</a>
 		<p>作成：2019-06-16</p>
 		<p><a class="tag" href="#tags/sechack365">#SecHack365</a></p>

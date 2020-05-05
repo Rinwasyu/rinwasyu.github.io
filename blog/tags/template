@@ -1,6 +1,6 @@
 <h2 id="t">#template</h2>
 <p>templateに関する記事一覧</p>
-<div id="e">
+<div class="e">
 	<div>
 		<a href="#entries/template">タイトル</a>
 		<p>作成：0000-00-00</p>

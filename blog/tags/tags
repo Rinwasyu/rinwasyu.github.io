@@ -1,6 +1,10 @@
 <h2 id="t">タグ一覧</h2>
 <div class="e">
 	<div>
+		<a class="tag" href="#tags/c">#c</a>
+		<p>C言語に関する記事。</p>
+	</div>
+	<div>
 		<a class="tag" href="#tags/sechack365">#SecHack365</a>
 		<p>SecHack365に関する記事。</p>
 	</div>
