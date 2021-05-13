@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>りんわしゅうのブログ - tech</title><link href="https://blog.kot.jp/" rel="alternate"></link><link href="https://blog.kot.jp/feeds/tech.atom.xml" rel="self"></link><id>https://blog.kot.jp/</id><updated>2021-05-13T23:44:00+09:00</updated><entry><title>Hello Pelican!</title><link href="https://blog.kot.jp/hello-pelican.html" rel="alternate"></link><published>2021-05-13T23:44:00+09:00</published><updated>2021-05-13T23:44:00+09:00</updated><author><name>Rinwasyu</name></author><id>tag:blog.kot.jp,2021-05-13:/hello-pelican.html</id><summary type="html">&lt;p class="first last"&gt;静的サイトジェネレータ「Pelican」を使用し新しいブログを構築しました。&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;オープンソースの静的サイトジェネレータの一つ &lt;a class="reference external" href="https://github.com/getpelican/pelican"&gt;Pelican&lt;/a&gt; を使いブログを構築しました。&lt;/p&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;背景&lt;/h2&gt;
+&lt;p&gt;ぼくの作ってきたプロジェクトがある程度の量になり、誰かに説明したり自分自身で見直したりするため、
+まとめたいと思っていました。
+また、以前のブログは、一部のWebブラウザやJavaScriptをOffにした環境では動作しませんでした。
+さらに、今まで作ってきたブログをより現代的にしたいと思っていました。&lt;/p&gt;
+&lt;p&gt;これらの理由から、新しいブログを構築することを決意しました。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;Pelicanによるブログ構築&lt;/h2&gt;
+&lt;p&gt;ブログを構築する上で、いくつか叶えたいことがありました。それは以下のとおりです。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;静的なサイトであること。&lt;/li&gt;
+&lt;li&gt;Markdownなどで書いた記事からページを生成できること。&lt;/li&gt;
+&lt;li&gt;生成するソフトウェアはオープンソースでかつ比較的活発に更新されていること。&lt;/li&gt;
+&lt;li&gt;ソフトウェアはPython, Node.jsで書かれていること。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ブログのホスティングにはGitHub Pagesを使用しているため、静的である必要がありました。
+以前はHTMLを直書きしてブログ記事を作成していたため、手間がかかり解決したいと思っていました。
+使用するソフトウェアが活発に更新されていることで、利用者が多いとみられまた不具合等が少ないと考えました。
+PythonまたはNode.jsでかかれていることで自分にとって環境構築がしやすいと考えました。&lt;/p&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h3&gt;Pelican&lt;/h3&gt;
+&lt;p&gt;以上の要望にあうソフトウェアとして「Pelican」が見つかりました。
+DuckDuckGoにて「blog generator python」としてもっとも上に表示されたものがPelicanでした。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="flex"&gt;
+&lt;h3&gt;Flex&lt;/h3&gt;
+&lt;p&gt;Pelicanに使用するテーマとして &lt;a class="reference external" href="https://github.com/alexandrevicenzi/Flex"&gt;Flex&lt;/a&gt; を採用しました。
+こちらもPelicanと同様に比較的活発な更新がされていました。またデザインに現代的な雰囲気を感じました。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id5"&gt;
+&lt;h3&gt;ブログ記事作成&lt;/h3&gt;
+&lt;p&gt;記事作成にはreStructuredText（以降reST）を使用しました。
+テキストファイルを直接テキストエディタで編集する際、reSTのほうが見やすいと考えたためです。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id6"&gt;
+&lt;h2&gt;まとめ&lt;/h2&gt;
+&lt;p&gt;PelicanとFlexを利用してブログを構築しました。
+今後はより活発に記事を作成できるかもしれません。&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="tech"></category><category term="pelican"></category></entry></feed>
