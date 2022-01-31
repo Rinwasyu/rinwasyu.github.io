@@ -1,7 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>りんわしゅうのブログ</title><link href="https://blog.kot.jp/" rel="alternate"></link><link href="https://blog.kot.jp/feeds/all.atom.xml" rel="self"></link><id>https://blog.kot.jp/</id><updated>2021-05-13T23:44:00+09:00</updated><entry><title>Hello Pelican!</title><link href="https://blog.kot.jp/hello-pelican.html" rel="alternate"></link><published>2021-05-13T23:44:00+09:00</published><updated>2021-05-13T23:44:00+09:00</updated><author><name>Rinwasyu</name></author><id>tag:blog.kot.jp,2021-05-13:/hello-pelican.html</id><summary type="html">&lt;p class="first last"&gt;静的サイトジェネレータ「Pelican」を使用し新しいブログを構築しました。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>りんわしゅうのブログ</title><link href="https://blog.kot.jp/" rel="alternate"></link><link href="https://blog.kot.jp/feeds/all.atom.xml" rel="self"></link><id>https://blog.kot.jp/</id><updated>2022-01-31T23:15:00+09:00</updated><entry><title>QEMU 6.1以降でVirgil GPUが使用できなかった問題を解決</title><link href="https://blog.kot.jp/fix_problem_that_cannot_use_virgil_gpu_on_qemu_6.1_or_later.html" rel="alternate"></link><published>2022-01-31T23:15:00+09:00</published><updated>2022-01-31T23:15:00+09:00</updated><author><name>Rinwasyu</name></author><id>tag:blog.kot.jp,2022-01-31:/fix_problem_that_cannot_use_virgil_gpu_on_qemu_6.1_or_later.html</id><summary type="html">&lt;p class="first last"&gt;QEMU 6.1以降で仮想GPUのVirgil GPUが使用できなかった問題を解決しました。&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;1&amp;nbsp;&amp;nbsp;&amp;nbsp;概要&lt;/h2&gt;
+&lt;p&gt;Virgil 3D GPU (virgl, virtio GPU) はQEMU上の仮想マシンで使用できる仮想GPUです。
+これはホストPCのGPUを利用して動作しています。
+私の環境ではllvmpipeよりも性能が高く感じ、Gentooの仮想マシンなどで使用していました。
+しかし、QEMU 6.1へ更新以降、virgilではなくllvmpipeが使用されるようになっていました。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;2&amp;nbsp;&amp;nbsp;&amp;nbsp;動作環境&lt;/h2&gt;
+&lt;div class="section" id="pc"&gt;
+&lt;h3&gt;2.1&amp;nbsp;&amp;nbsp;&amp;nbsp;PC環境&lt;/h3&gt;
+&lt;p&gt;ホストPCの環境は以下のとおりです。&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;表1. ホストPCの環境&lt;/caption&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;OS&lt;/td&gt;
+&lt;td&gt;Fedora GNU/Linux 35&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;CPU&lt;/td&gt;
+&lt;td&gt;Ryzen Threadripper 2950x (16 cores, 32 threads)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Memory&lt;/td&gt;
+&lt;td&gt;128 GiB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;仮想PCの環境は以下のとおりです。&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;表2. 仮想PCの環境&lt;/caption&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;OS&lt;/td&gt;
+&lt;td&gt;Gentoo GNU/Linux&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;CPU&lt;/td&gt;
+&lt;td&gt;8 cores&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Memory&lt;/td&gt;
+&lt;td&gt;16 GiB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="section" id="qemu"&gt;
+&lt;h3&gt;2.2&amp;nbsp;&amp;nbsp;&amp;nbsp;QEMUの設定&lt;/h3&gt;
+&lt;p&gt;実際に使用していたQEMUの起動オプションは以下です。&lt;/p&gt;
+&lt;pre class="code shell literal-block"&gt;
+&lt;span class="nv"&gt;QEMU_AUDIO_DRV&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;alsa&lt;span class="se"&gt;\
+&lt;/span&gt;qemu-system-x86_64&lt;span class="se"&gt;\
+&lt;/span&gt;        -hda gentoo.qcow2&lt;span class="se"&gt;\
+&lt;/span&gt;        -m 16G&lt;span class="se"&gt;\
+&lt;/span&gt;        -cpu host&lt;span class="se"&gt;\
+&lt;/span&gt;        -machine &lt;span class="nv"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;pc,accel&lt;span class="o"&gt;=&lt;/span&gt;kvm&lt;span class="se"&gt;\
+&lt;/span&gt;        -smp &lt;span class="m"&gt;8&lt;/span&gt;&lt;span class="se"&gt;\
+&lt;/span&gt;        -vga virtio&lt;span class="se"&gt;\
+&lt;/span&gt;        -display gtk,grab-on-hover&lt;span class="o"&gt;=&lt;/span&gt;true,gl&lt;span class="o"&gt;=&lt;/span&gt;on&lt;span class="se"&gt;\
+&lt;/span&gt;        -device AC97&lt;span class="se"&gt;\
+&lt;/span&gt;        -device nec-usb-xhci,id&lt;span class="o"&gt;=&lt;/span&gt;usb,bus&lt;span class="o"&gt;=&lt;/span&gt;pci.0,addr&lt;span class="o"&gt;=&lt;/span&gt;0x8&lt;span class="se"&gt;\
+&lt;/span&gt;        -device usb-tablet
+&lt;/pre&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-vga&lt;/span&gt; virtio&lt;/tt&gt; により、virtio GPU (=virgil GPU)を使用します。&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-display&lt;/span&gt; ***&lt;/tt&gt; により、OpenGLを有効にしGTKウィンドウに描画します。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-3"&gt;
+&lt;h2&gt;3&amp;nbsp;&amp;nbsp;&amp;nbsp;暫定対策&lt;/h2&gt;
+&lt;p&gt;QEMU 6.0系を &lt;a class="reference external" href="https://www.qemu.org/"&gt;https://www.qemu.org/&lt;/a&gt; からダウンロードし、手動でビルドしました。&lt;/p&gt;
+&lt;p&gt;ソースディレクトリで以下を実行しインストールしました。&lt;/p&gt;
+&lt;pre class="code shell literal-block"&gt;
+./configure
+make -j32 &lt;span class="c1"&gt;# 32はビルドプロセスの並列スレッド数
+&lt;/span&gt;sudo make install
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-4"&gt;
+&lt;h2&gt;4&amp;nbsp;&amp;nbsp;&amp;nbsp;調査、原因と対策&lt;/h2&gt;
+&lt;p&gt;調査したところ、virgil公式のgitlabにて以下の記事を見つけました。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/253"&gt;https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/253&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;こちらの方はnvidiaホストを利用しているそうですが、私と似た問題に遭遇しています。&lt;/p&gt;
+&lt;p&gt;メンテナさんの返信によると、graphics deviceの呼び出し方法が変更されたとあります。
+記述どおりに以下のようにQEMU起動オプションを変更したところ、Virgilを使用できました。&lt;/p&gt;
+&lt;pre class="code shell literal-block"&gt;
+&lt;span class="nv"&gt;QEMU_AUDIO_DRV&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;alsa&lt;span class="se"&gt;\
+&lt;/span&gt;        qemu-system-x86_64&lt;span class="se"&gt;\
+&lt;/span&gt;        -hda gentoo.qcow2&lt;span class="se"&gt;\
+&lt;/span&gt;        -m 16G&lt;span class="se"&gt;\
+&lt;/span&gt;        -cpu host&lt;span class="se"&gt;\
+&lt;/span&gt;        -machine &lt;span class="nv"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;pc,accel&lt;span class="o"&gt;=&lt;/span&gt;kvm&lt;span class="se"&gt;\
+&lt;/span&gt;        -smp &lt;span class="m"&gt;8&lt;/span&gt;&lt;span class="se"&gt;\
+&lt;/span&gt;        -device virtio-vga-gl&lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="c1"&gt;# 変更箇所
+&lt;/span&gt;        -display gtk,grab-on-hover&lt;span class="o"&gt;=&lt;/span&gt;true,gl&lt;span class="o"&gt;=&lt;/span&gt;on&lt;span class="se"&gt;\
+&lt;/span&gt;        -device AC97&lt;span class="se"&gt;\
+&lt;/span&gt;        -device nec-usb-xhci,id&lt;span class="o"&gt;=&lt;/span&gt;usb,bus&lt;span class="o"&gt;=&lt;/span&gt;pci.0,addr&lt;span class="o"&gt;=&lt;/span&gt;0x8&lt;span class="se"&gt;\
+&lt;/span&gt;        -device usb-tablet
+&lt;/pre&gt;
+&lt;p&gt;以上&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="url"&gt;
+&lt;h2&gt;5&amp;nbsp;&amp;nbsp;&amp;nbsp;参考URL&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://virgil3d.github.io/"&gt;https://virgil3d.github.io/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/253"&gt;https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/253&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-5"&gt;
+&lt;h2&gt;6&amp;nbsp;&amp;nbsp;&amp;nbsp;更新履歴&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;em&gt;2022-01-31 新規作成&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</content><category term="tech"></category><category term="virgil"></category><category term="gnu-linux"></category><category term="qemu"></category></entry><entry><title>Hello Pelican!</title><link href="https://blog.kot.jp/hello-pelican.html" rel="alternate"></link><published>2021-05-13T23:44:00+09:00</published><updated>2021-05-13T23:44:00+09:00</updated><author><name>Rinwasyu</name></author><id>tag:blog.kot.jp,2021-05-13:/hello-pelican.html</id><summary type="html">&lt;p class="first last"&gt;静的サイトジェネレータ「Pelican」を使用し新しいブログを構築しました。&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;オープンソースの静的サイトジェネレータの一つ &lt;a class="reference external" href="https://github.com/getpelican/pelican"&gt;Pelican&lt;/a&gt; を使いブログを構築しました。&lt;/p&gt;
-&lt;div class="section" id="id1"&gt;
+&lt;div class="section" id="section-1"&gt;
 &lt;h2&gt;背景&lt;/h2&gt;
 &lt;p&gt;ぼくの作ってきたプロジェクトがある程度の量になり、誰かに説明したり自分自身で見直したりするため、
 まとめたいと思っていました。
@@ -9,7 +119,7 @@
 さらに、今まで作ってきたブログをより現代的にしたいと思っていました。&lt;/p&gt;
 &lt;p&gt;これらの理由から、新しいブログを構築することを決意しました。&lt;/p&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
+&lt;div class="section" id="pelican-1"&gt;
 &lt;h2&gt;Pelicanによるブログ構築&lt;/h2&gt;
 &lt;p&gt;ブログを構築する上で、いくつか叶えたいことがありました。それは以下のとおりです。&lt;/p&gt;
 &lt;ul class="simple"&gt;
@@ -22,7 +132,7 @@
 以前はHTMLを直書きしてブログ記事を作成していたため、手間がかかり解決したいと思っていました。
 使用するソフトウェアが活発に更新されていることで、利用者が多いとみられまた不具合等が少ないと考えました。
 PythonまたはNode.jsでかかれていることで自分にとって環境構築がしやすいと考えました。&lt;/p&gt;
-&lt;div class="section" id="id3"&gt;
+&lt;div class="section" id="pelican-2"&gt;
 &lt;h3&gt;Pelican&lt;/h3&gt;
 &lt;p&gt;以上の要望にあうソフトウェアとして「Pelican」が見つかりました。
 DuckDuckGoにて「blog generator python」としてもっとも上に表示されたものがPelicanでした。&lt;/p&gt;
@@ -32,13 +142,13 @@ DuckDuckGoにて「blog generator python」としてもっとも上に表示さ�
 &lt;p&gt;Pelicanに使用するテーマとして &lt;a class="reference external" href="https://github.com/alexandrevicenzi/Flex"&gt;Flex&lt;/a&gt; を採用しました。
 こちらもPelicanと同様に比較的活発な更新がされていました。またデザインに現代的な雰囲気を感じました。&lt;/p&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id5"&gt;
+&lt;div class="section" id="section-2"&gt;
 &lt;h3&gt;ブログ記事作成&lt;/h3&gt;
 &lt;p&gt;記事作成にはreStructuredText（以降reST）を使用しました。
 テキストファイルを直接テキストエディタで編集する際、reSTのほうが見やすいと考えたためです。&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id6"&gt;
+&lt;div class="section" id="section-3"&gt;
 &lt;h2&gt;まとめ&lt;/h2&gt;
 &lt;p&gt;PelicanとFlexを利用してブログを構築しました。
 今後はより活発に記事を作成できるかもしれません。&lt;/p&gt;
