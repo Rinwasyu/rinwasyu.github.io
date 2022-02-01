@@ -41,7 +41,7 @@
 <meta property="og:url" content="https://blog.kot.jp/fix_problem_that_cannot_use_virgil_gpu_on_qemu_6.1_or_later.html"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2022-01-31 23:15:00+09:00"/>
-<meta property="article:modified_time" content=""/>
+<meta property="article:modified_time" content="2022-02-01 21:00:00+09:00"/>
 <meta property="article:author" content="https://blog.kot.jp/author/rinwasyu.html">
 <meta property="article:section" content="tech"/>
 <meta property="article:tag" content="virgil"/>
@@ -127,10 +127,10 @@
   <div>
     <div class="section" id="section-1">
 <h2>1&nbsp;&nbsp;&nbsp;概要</h2>
-<p>Virgil 3D GPU (virgl, virtio GPU) はQEMU上の仮想マシンで使用できる仮想GPUです。
+<p>Virgil 3D GPU (Virgl, Virtio GPU) はQEMU上の仮想マシンで使用できる仮想GPUです。
 これはホストPCのGPUを利用して動作しています。
-私の環境ではllvmpipeよりも性能が高く感じ、Gentooの仮想マシンなどで使用していました。
-しかし、QEMU 6.1へ更新以降、virgilではなくllvmpipeが使用されるようになっていました。</p>
+私の環境ではLLVMpipeよりも性能が高く感じ、Gentooの仮想マシンなどで使用していました。
+しかし、QEMU 6.1へ更新以降、VirgilではなくLLVMpipeが使用されるようになっていました。</p>
 </div>
 <div class="section" id="section-2">
 <h2>2&nbsp;&nbsp;&nbsp;動作環境</h2>
@@ -184,13 +184,13 @@
 </span>        -device nec-usb-xhci,id<span class="o">=</span>usb,bus<span class="o">=</span>pci.0,addr<span class="o">=</span>0x8<span class="se">\
 </span>        -device usb-tablet
 </pre>
-<p><tt class="docutils literal"><span class="pre">-vga</span> virtio</tt> により、virtio GPU (=virgil GPU)を使用します。</p>
+<p><tt class="docutils literal"><span class="pre">-vga</span> virtio</tt> により、Virtio GPU (=virgil GPU)を使用します。</p>
 <p><tt class="docutils literal"><span class="pre">-display</span> ***</tt> により、OpenGLを有効にしGTKウィンドウに描画します。</p>
 </div>
 </div>
 <div class="section" id="section-3">
 <h2>3&nbsp;&nbsp;&nbsp;暫定対策</h2>
-<p>QEMU 6.0系を <a class="reference external" href="https://www.qemu.org/">https://www.qemu.org/</a> からダウンロードし、手動でビルドしました。</p>
+<p>QEMU 6.0系を <a class="reference external" href="https://www.qemu.org/">QEMU</a> からダウンロードし、手動でビルドしました。</p>
 <p>ソースディレクトリで以下を実行しインストールしました。</p>
 <pre class="code shell literal-block">
 ./configure
@@ -200,14 +200,14 @@ make -j32 <span class="c1"># 32はビルドプロセスの並列スレッド数
 </div>
 <div class="section" id="section-4">
 <h2>4&nbsp;&nbsp;&nbsp;調査、原因と対策</h2>
-<p>調査したところ、virgil公式のgitlabにて以下の記事を見つけました。</p>
-<p><a class="reference external" href="https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/253">https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/253</a></p>
+<p>調査したところ、Virgil公式のGitLabにて以下の記事を見つけました。</p>
+<p><a class="reference external" href="https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/253">Virglrenderer broken on QEMU 6.1.0 for nvidia hosts (#253)</a></p>
 <p>こちらの方はnvidiaホストを利用しているそうですが、私と似た問題に遭遇しています。</p>
 <p>メンテナさんの返信によると、graphics deviceの呼び出し方法が変更されたとあります。
 記述どおりに以下のようにQEMU起動オプションを変更したところ、Virgilを使用できました。</p>
 <pre class="code shell literal-block">
 <span class="nv">QEMU_AUDIO_DRV</span><span class="o">=</span>alsa<span class="se">\
-</span>        qemu-system-x86_64<span class="se">\
+</span>qemu-system-x86_64<span class="se">\
 </span>        -hda gentoo.qcow2<span class="se">\
 </span>        -m 16G<span class="se">\
 </span>        -cpu host<span class="se">\
@@ -223,15 +223,14 @@ make -j32 <span class="c1"># 32はビルドプロセスの並列スレッド数
 </div>
 <div class="section" id="url">
 <h2>5&nbsp;&nbsp;&nbsp;参考URL</h2>
-<ul class="simple">
-<li><a class="reference external" href="https://virgil3d.github.io/">https://virgil3d.github.io/</a></li>
-<li><a class="reference external" href="https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/253">https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/253</a></li>
-</ul>
+<p><a class="reference external" href="https://virgil3d.github.io/">Virgil 3D GPU project by virgil3d</a></p>
+<p><a class="reference external" href="https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/253">Virglrenderer broken on QEMU 6.1.0 for nvidia hosts (#253)</a></p>
 </div>
 <div class="section" id="section-5">
 <h2>6&nbsp;&nbsp;&nbsp;更新履歴</h2>
 <ul class="simple">
 <li><em>2022-01-31 新規作成</em></li>
+<li><em>2022-02-01 ハイパーリンク文字列をURLからタイトルへ変更、英単語の表記修正など</em></li>
 </ul>
 </div>
 
