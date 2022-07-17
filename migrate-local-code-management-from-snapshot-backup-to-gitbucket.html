@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://blog.kot.jp/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://blog.kot.jp/theme/pygments/colorful.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://blog.kot.jp/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://blog.kot.jp/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://blog.kot.jp/theme/font-awesome/css/solid.css">
+
+
+    <link href="https://blog.kot.jp/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="りんわしゅうのブログ Atom">
+
+
+
+  
+
+
+ 
+
+<meta name="author" content="Rinwasyu" />
+<meta name="description" content="ローカルPCでのソースコード管理をGitBucketに移行しました。" />
+<meta name="keywords" content="development, gitbucket">
+
+
+  <meta property="og:site_name" content="りんわしゅうのブログ"/>
+  <meta property="og:title" content="ソースコード管理をsnapshotからGitBucketに移行した"/>
+  <meta property="og:description" content="ローカルPCでのソースコード管理をGitBucketに移行しました。"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://blog.kot.jp/migrate-local-code-management-from-snapshot-backup-to-gitbucket.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2022-07-18 03:22:00+09:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://blog.kot.jp/author/rinwasyu.html">
+  <meta property="article:section" content="tech"/>
+  <meta property="article:tag" content="development"/>
+  <meta property="article:tag" content="gitbucket"/>
+  <meta property="og:image" content="https://blog.kot.jp/images/profile_image.png">
+
+  <title>りんわしゅうのブログ &ndash; ソースコード管理をsnapshotからGitBucketに移行した</title>
+
+</head>
+<body class="light-theme">
+  <aside>
+    <div>
+      <a href="https://blog.kot.jp/">
+        <img src="https://blog.kot.jp/images/profile_image.png" alt="" title="">
+      </a>
+
+      <h1>
+        <a href="https://blog.kot.jp/"></a>
+      </h1>
+
+
+      <nav>
+        <ul class="list">
+
+
+              <li>
+                <a target="_self"
+                   href="https://blog.kot.jp/pages/profile.html#profile">
+                  Profile
+                </a>
+              </li>
+              <li>
+                <a target="_self"
+                   href="https://blog.kot.jp/pages/projects.html#projects">
+                  Projects
+                </a>
+              </li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+          <li>
+            <a  class="sc-twitter" href="https://twitter.com/Rinwasyu" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-github" href="https://github.com/Rinwasyu" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+      </ul>
+    </div>
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="https://blog.kot.jp/">Home</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="https://blog.kot.jp/feeds/all.atom.xml">Atom</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="migrate-local-code-management-from-snapshot-backup-to-gitbucket">ソースコード管理をsnapshotからGitBucketに移行した</h1>
+    <p>
+      Posted on 2022年07月18日 in <a href="https://blog.kot.jp/category/tech.html">tech</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <div class="section" id="section-1">
+<h2>1&nbsp;&nbsp;&nbsp;概要</h2>
+<p>ローカルPCで、スナップショットで管理していたソースコードをGitBucketに移行しました。</p>
+</div>
+<div class="section" id="section-2">
+<h2>2&nbsp;&nbsp;&nbsp;背景</h2>
+<p>私はプログラムをプログラムするとき、ローカルPCにて試しながらコーディングしています。
+そして、ある程度形になったものをcommitしてリモートリポジトリに反映しています。
+リモートリポジトリはGitHubやCodebergなどほぼgit管理のものを利用しています。
+しかし、ローカルPCではスナップショットバックアップをよく使用していました。
+commitした後、きりがよいとき、PC再起動のタイミング <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a> などに、</p>
+<pre class="code text literal-block">
+&lt;project_name&gt;-snapshot-YYYYMMDD-HHMM.tar.xz
+</pre>
+<p>の形式でディレクトリのスナップショットを取ってバックアップしていました。</p>
+<p>変更点を細かく把握できない点など問題があったため、git管理に移行することにしました。</p>
+</div>
+<div class="section" id="section-3">
+<h2>3&nbsp;&nbsp;&nbsp;移行先</h2>
+<p>Raspberry Pi 3 model BにてGitBucketを動作させていたため、利用することにしました。</p>
+</div>
+<div class="section" id="section-4">
+<h2>4&nbsp;&nbsp;&nbsp;移行作業</h2>
+<p>メインで使用しているPCには20個ほどプロジェクトがあり、手作業で移行は大変でした。
+そのため、ある程度自動化しました。</p>
+<pre class="code bash literal-block">
+<span class="c1"># ./&lt;project_name&gt;-snapshots/ 内の最新スナップショットをtoディレクトリに移動
+</span><span class="k">for</span> d <span class="k">in</span> <span class="k">$(</span>find . -type d <span class="p">|</span> grep -E -v <span class="s2">&quot;^\.</span>$<span class="s2">&quot;</span><span class="k">)</span><span class="p">;</span>
+<span class="k">do</span>
+        <span class="nv">name</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">d</span><span class="p">:</span><span class="nv">2</span><span class="si">}</span> <span class="p">|</span> sed -s <span class="s2">&quot;s/-snapshots//g&quot;</span><span class="k">)</span><span class="p">;</span>
+        <span class="nv">archive</span><span class="o">=</span><span class="k">$(</span>ls <span class="nv">$d</span> <span class="p">|</span> tail -n1<span class="k">)</span><span class="p">;</span>
+        <span class="nv">to</span><span class="o">=</span>/tmp/1/gitbucket-migration/<span class="nv">$archive</span><span class="p">;</span> <span class="c1">#移動先
+</span>        <span class="nb">echo</span> <span class="nv">$archive</span> <span class="s2">&quot;-&gt;&quot;</span> <span class="nv">$to</span><span class="p">;</span>
+        sh -c <span class="s2">&quot;cd </span><span class="nv">$d</span><span class="s2">; cp </span><span class="nv">$archive</span><span class="s2"> </span><span class="nv">$to</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="k">done</span>
+</pre>
+<p>その後、圧縮ファイルを展開しました。
+最後に、以下のように各スナップショットをGitBucketにpushしていきました。
+GitBucketではGitHub APIを使用可能なため、それを利用してリポジトリ作成をしました。</p>
+<pre class="code bash literal-block">
+<span class="k">for</span> d <span class="k">in</span> <span class="k">$(</span>find . -maxdepth <span class="m">1</span> -type d <span class="p">|</span> grep -E -v <span class="s2">&quot;^\.</span>$<span class="s2">&quot;</span><span class="k">)</span><span class="p">;</span>
+<span class="k">do</span>
+        <span class="nv">name</span><span class="o">=</span><span class="k">$(</span>sh -c <span class="s2">&quot;cd </span><span class="nv">$d</span><span class="s2">; ls&quot;</span><span class="k">)</span><span class="p">;</span> <span class="c1"># 名前
+</span>        <span class="nb">echo</span> <span class="nv">$name</span><span class="p">;</span>
+
+        <span class="c1"># GitBucketのGitHub API v3を利用してリポジトリ作成
+</span>        curl<span class="se">\
+</span>                -X POST<span class="se">\
+</span>                -H <span class="s2">&quot;Accept: application/vnd.github+json&quot;</span><span class="se">\
+</span>                -H <span class="s2">&quot;Authorization: token &lt;access_token&gt;&quot;</span><span class="se">\
+</span>                --data <span class="s2">&quot;{\&quot;name\&quot;:\&quot;</span><span class="nv">$name</span><span class="s2">\&quot;}&quot;</span><span class="se">\ </span><span class="c1"># &quot;name&quot;がリポジトリ名
+</span>                http://&lt;gitbucket_url&gt;/api/v3/user/repos<span class="p">;</span>
+
+        <span class="c1"># スナップショットの中身をcommitしてpush
+</span>        sh -c <span class="s2">&quot;\
+                cd </span><span class="nv">$d</span><span class="s2">/*;\
+                git init;\
+                git remote set-url origin http://&lt;git_repo&gt;/</span><span class="nv">$name</span><span class="s2">\.git;\
+                git add .;\
+                git commit -m \&quot;migrated\&quot;;\
+                git push origin &lt;branch_name&gt;&quot;</span><span class="p">;</span>
+<span class="k">done</span>
+</pre>
+</div>
+<div class="section" id="url">
+<h2>5&nbsp;&nbsp;&nbsp;参考URL</h2>
+<p><a class="reference external" href="https://github.com/gitbucket/gitbucket/wiki/API-WebHook">API WebHook · gitbucket/gitbucket Wiki · GitHub</a></p>
+</div>
+<div class="section" id="section-5">
+<h2>6&nbsp;&nbsp;&nbsp;脚注</h2>
+<table class="docutils footnote" frame="void" id="footnote-1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-1">[1]</a></td><td><cite>/tmp</cite> 上で開発する習慣があるためバックアップしないと再起動時に消えてしまう。</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="section-6">
+<h2>7&nbsp;&nbsp;&nbsp;更新履歴</h2>
+<ul class="simple">
+<li><em>2022-07-18 新規作成</em></li>
+</ul>
+</div>
+
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://blog.kot.jp/tag/development.html">development</a>
+      <a href="https://blog.kot.jp/tag/gitbucket.html">gitbucket</a>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+    <footer>
+<p>
+  &copy; 2021,2022 Rinwasyu - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/deed.ja_JP" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p><p>
+</p>    </footer>
+  </main>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " りんわしゅうのブログ ",
+  "url" : "https://blog.kot.jp",
+  "image": "https://blog.kot.jp/images/profile_image.png",
+  "description": ""
+}
+</script>
+
+  
+</body>
+</html>

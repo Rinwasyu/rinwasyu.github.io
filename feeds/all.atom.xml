@@ -1,5 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>りんわしゅうのブログ</title><link href="https://blog.kot.jp/" rel="alternate"></link><link href="https://blog.kot.jp/feeds/all.atom.xml" rel="self"></link><id>https://blog.kot.jp/</id><updated>2022-02-01T21:00:00+09:00</updated><entry><title>QEMU 6.1以降でVirgil GPUが使用できなかった問題を解決</title><link href="https://blog.kot.jp/fix_problem_that_cannot_use_virgil_gpu_on_qemu_6.1_or_later.html" rel="alternate"></link><published>2022-01-31T23:15:00+09:00</published><updated>2022-02-01T21:00:00+09:00</updated><author><name>Rinwasyu</name></author><id>tag:blog.kot.jp,2022-01-31:/fix_problem_that_cannot_use_virgil_gpu_on_qemu_6.1_or_later.html</id><summary type="html">&lt;p class="first last"&gt;QEMU 6.1以降で仮想GPUのVirgil GPUが使用できなかった問題を解決しました。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>りんわしゅうのブログ</title><link href="https://blog.kot.jp/" rel="alternate"></link><link href="https://blog.kot.jp/feeds/all.atom.xml" rel="self"></link><id>https://blog.kot.jp/</id><updated>2022-07-18T03:22:00+09:00</updated><entry><title>ソースコード管理をsnapshotからGitBucketに移行した</title><link href="https://blog.kot.jp/migrate-local-code-management-from-snapshot-backup-to-gitbucket.html" rel="alternate"></link><published>2022-07-18T03:22:00+09:00</published><updated>2022-07-18T03:22:00+09:00</updated><author><name>Rinwasyu</name></author><id>tag:blog.kot.jp,2022-07-18:/migrate-local-code-management-from-snapshot-backup-to-gitbucket.html</id><summary type="html">&lt;p class="first last"&gt;ローカルPCでのソースコード管理をGitBucketに移行しました。&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;1&amp;nbsp;&amp;nbsp;&amp;nbsp;概要&lt;/h2&gt;
+&lt;p&gt;ローカルPCで、スナップショットで管理していたソースコードをGitBucketに移行しました。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;2&amp;nbsp;&amp;nbsp;&amp;nbsp;背景&lt;/h2&gt;
+&lt;p&gt;私はプログラムをプログラムするとき、ローカルPCにて試しながらコーディングしています。
+そして、ある程度形になったものをcommitしてリモートリポジトリに反映しています。
+リモートリポジトリはGitHubやCodebergなどほぼgit管理のものを利用しています。
+しかし、ローカルPCではスナップショットバックアップをよく使用していました。
+commitした後、きりがよいとき、PC再起動のタイミング &lt;a class="footnote-reference" href="#footnote-1" id="footnote-reference-1"&gt;[1]&lt;/a&gt; などに、&lt;/p&gt;
+&lt;pre class="code text literal-block"&gt;
+&amp;lt;project_name&amp;gt;-snapshot-YYYYMMDD-HHMM.tar.xz
+&lt;/pre&gt;
+&lt;p&gt;の形式でディレクトリのスナップショットを取ってバックアップしていました。&lt;/p&gt;
+&lt;p&gt;変更点を細かく把握できない点など問題があったため、git管理に移行することにしました。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-3"&gt;
+&lt;h2&gt;3&amp;nbsp;&amp;nbsp;&amp;nbsp;移行先&lt;/h2&gt;
+&lt;p&gt;Raspberry Pi 3 model BにてGitBucketを動作させていたため、利用することにしました。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-4"&gt;
+&lt;h2&gt;4&amp;nbsp;&amp;nbsp;&amp;nbsp;移行作業&lt;/h2&gt;
+&lt;p&gt;メインで使用しているPCには20個ほどプロジェクトがあり、手作業で移行は大変でした。
+そのため、ある程度自動化しました。&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="c1"&gt;# ./&amp;lt;project_name&amp;gt;-snapshots/ 内の最新スナップショットをtoディレクトリに移動
+&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; d &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;find . -type d &lt;span class="p"&gt;|&lt;/span&gt; grep -E -v &lt;span class="s2"&gt;&amp;quot;^\.&lt;/span&gt;$&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="nv"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sed -s &lt;span class="s2"&gt;&amp;quot;s/-snapshots//g&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="nv"&gt;archive&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;ls &lt;span class="nv"&gt;$d&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; tail -n1&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="nv"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/tmp/1/gitbucket-migration/&lt;span class="nv"&gt;$archive&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;#移動先
+&lt;/span&gt;        &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$archive&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;-&amp;gt;&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;$to&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        sh -c &lt;span class="s2"&gt;&amp;quot;cd &lt;/span&gt;&lt;span class="nv"&gt;$d&lt;/span&gt;&lt;span class="s2"&gt;; cp &lt;/span&gt;&lt;span class="nv"&gt;$archive&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$to&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;その後、圧縮ファイルを展開しました。
+最後に、以下のように各スナップショットをGitBucketにpushしていきました。
+GitBucketではGitHub APIを使用可能なため、それを利用してリポジトリ作成をしました。&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; d &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;find . -maxdepth &lt;span class="m"&gt;1&lt;/span&gt; -type d &lt;span class="p"&gt;|&lt;/span&gt; grep -E -v &lt;span class="s2"&gt;&amp;quot;^\.&lt;/span&gt;$&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="nv"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;sh -c &lt;span class="s2"&gt;&amp;quot;cd &lt;/span&gt;&lt;span class="nv"&gt;$d&lt;/span&gt;&lt;span class="s2"&gt;; ls&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;# 名前
+&lt;/span&gt;        &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$name&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# GitBucketのGitHub API v3を利用してリポジトリ作成
+&lt;/span&gt;        curl&lt;span class="se"&gt;\
+&lt;/span&gt;                -X POST&lt;span class="se"&gt;\
+&lt;/span&gt;                -H &lt;span class="s2"&gt;&amp;quot;Accept: application/vnd.github+json&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\
+&lt;/span&gt;                -H &lt;span class="s2"&gt;&amp;quot;Authorization: token &amp;lt;access_token&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\
+&lt;/span&gt;                --data &lt;span class="s2"&gt;&amp;quot;{\&amp;quot;name\&amp;quot;:\&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$name&lt;/span&gt;&lt;span class="s2"&gt;\&amp;quot;}&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="c1"&gt;# &amp;quot;name&amp;quot;がリポジトリ名
+&lt;/span&gt;                http://&amp;lt;gitbucket_url&amp;gt;/api/v3/user/repos&lt;span class="p"&gt;;&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# スナップショットの中身をcommitしてpush
+&lt;/span&gt;        sh -c &lt;span class="s2"&gt;&amp;quot;\
+                cd &lt;/span&gt;&lt;span class="nv"&gt;$d&lt;/span&gt;&lt;span class="s2"&gt;/*;\
+                git init;\
+                git remote set-url origin http://&amp;lt;git_repo&amp;gt;/&lt;/span&gt;&lt;span class="nv"&gt;$name&lt;/span&gt;&lt;span class="s2"&gt;\.git;\
+                git add .;\
+                git commit -m \&amp;quot;migrated\&amp;quot;;\
+                git push origin &amp;lt;branch_name&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="url"&gt;
+&lt;h2&gt;5&amp;nbsp;&amp;nbsp;&amp;nbsp;参考URL&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/gitbucket/gitbucket/wiki/API-WebHook"&gt;API WebHook · gitbucket/gitbucket Wiki · GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-5"&gt;
+&lt;h2&gt;6&amp;nbsp;&amp;nbsp;&amp;nbsp;脚注&lt;/h2&gt;
+&lt;table class="docutils footnote" frame="void" id="footnote-1" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#footnote-reference-1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;cite&gt;/tmp&lt;/cite&gt; 上で開発する習慣があるためバックアップしないと再起動時に消えてしまう。&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-6"&gt;
+&lt;h2&gt;7&amp;nbsp;&amp;nbsp;&amp;nbsp;更新履歴&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;em&gt;2022-07-18 新規作成&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</content><category term="tech"></category><category term="development"></category><category term="gitbucket"></category></entry><entry><title>QEMU 6.1以降でVirgil GPUが使用できなかった問題を解決</title><link href="https://blog.kot.jp/fix_problem_that_cannot_use_virgil_gpu_on_qemu_6.1_or_later.html" rel="alternate"></link><published>2022-01-31T23:15:00+09:00</published><updated>2022-02-01T21:00:00+09:00</updated><author><name>Rinwasyu</name></author><id>tag:blog.kot.jp,2022-01-31:/fix_problem_that_cannot_use_virgil_gpu_on_qemu_6.1_or_later.html</id><summary type="html">&lt;p class="first last"&gt;QEMU 6.1以降で仮想GPUのVirgil GPUが使用できなかった問題を解決しました。&lt;/p&gt;
 </summary><content type="html">&lt;div class="section" id="section-1"&gt;
 &lt;h2&gt;1&amp;nbsp;&amp;nbsp;&amp;nbsp;概要&lt;/h2&gt;
 &lt;p&gt;Virgil 3D GPU (Virgl, Virtio GPU) はQEMU上の仮想マシンで使用できる仮想GPUです。
