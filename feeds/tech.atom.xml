@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>りんわしゅうのブログ - tech</title><link href="https://blog.kot.jp/" rel="alternate"></link><link href="https://blog.kot.jp/feeds/tech.atom.xml" rel="self"></link><id>https://blog.kot.jp/</id><updated>2022-07-18T03:22:00+09:00</updated><entry><title>ソースコード管理をsnapshotからGitBucketに移行した</title><link href="https://blog.kot.jp/migrate-local-code-management-from-snapshot-backup-to-gitbucket.html" rel="alternate"></link><published>2022-07-18T03:22:00+09:00</published><updated>2022-07-18T03:22:00+09:00</updated><author><name>Rinwasyu</name></author><id>tag:blog.kot.jp,2022-07-18:/migrate-local-code-management-from-snapshot-backup-to-gitbucket.html</id><summary type="html">&lt;p class="first last"&gt;ローカルPCでのソースコード管理をGitBucketに移行しました。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>りんわしゅうのブログ - tech</title><link href="https://blog.kot.jp/" rel="alternate"></link><link href="https://blog.kot.jp/feeds/tech.atom.xml" rel="self"></link><id>https://blog.kot.jp/</id><updated>2022-07-18T11:50:00+09:00</updated><entry><title>ソースコード管理をsnapshotからGitBucketに移行した</title><link href="https://blog.kot.jp/migrate-local-code-management-from-snapshot-backup-to-gitbucket.html" rel="alternate"></link><published>2022-07-18T03:22:00+09:00</published><updated>2022-07-18T11:50:00+09:00</updated><author><name>Rinwasyu</name></author><id>tag:blog.kot.jp,2022-07-18:/migrate-local-code-management-from-snapshot-backup-to-gitbucket.html</id><summary type="html">&lt;p class="first last"&gt;ローカルPCでのソースコード管理をGitBucketに移行しました。&lt;/p&gt;
 </summary><content type="html">&lt;div class="section" id="section-1"&gt;
 &lt;h2&gt;1&amp;nbsp;&amp;nbsp;&amp;nbsp;概要&lt;/h2&gt;
 &lt;p&gt;ローカルPCで、スナップショットで管理していたソースコードをGitBucketに移行しました。&lt;/p&gt;
@@ -10,7 +10,7 @@
 そして、ある程度形になったものをcommitしてリモートリポジトリに反映しています。
 リモートリポジトリはGitHubやCodebergなどほぼgit管理のものを利用しています。
 しかし、ローカルPCではスナップショットバックアップをよく使用していました。
-commitした後、きりがよいとき、PC再起動のタイミング &lt;a class="footnote-reference" href="#footnote-1" id="footnote-reference-1"&gt;[1]&lt;/a&gt; などに、&lt;/p&gt;
+commitした後、きりがよいとき、PC再起動のタイミング &lt;a class="footnote-reference" href="#f1" id="footnote-reference-1"&gt;[1]&lt;/a&gt; などに、&lt;/p&gt;
 &lt;pre class="code text literal-block"&gt;
 &amp;lt;project_name&amp;gt;-snapshot-YYYYMMDD-HHMM.tar.xz
 &lt;/pre&gt;
@@ -19,12 +19,13 @@ commitした後、きりがよいとき、PC再起動のタイミング &lt;a cl
 &lt;/div&gt;
 &lt;div class="section" id="section-3"&gt;
 &lt;h2&gt;3&amp;nbsp;&amp;nbsp;&amp;nbsp;移行先&lt;/h2&gt;
-&lt;p&gt;Raspberry Pi 3 model BにてGitBucketを動作させていたため、利用することにしました。&lt;/p&gt;
+&lt;p&gt;ローカル環境Raspberry Pi 3 model BにてGitBucketが動いており、これを利用しました。&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="section-4"&gt;
 &lt;h2&gt;4&amp;nbsp;&amp;nbsp;&amp;nbsp;移行作業&lt;/h2&gt;
 &lt;p&gt;メインで使用しているPCには20個ほどプロジェクトがあり、手作業で移行は大変でした。
 そのため、ある程度自動化しました。&lt;/p&gt;
+&lt;p&gt;まず、バックアップしている各プロジェクトの最新スナップショットを一ヶ所にまとめました。&lt;/p&gt;
 &lt;pre class="code bash literal-block"&gt;
 &lt;span class="c1"&gt;# ./&amp;lt;project_name&amp;gt;-snapshots/ 内の最新スナップショットをtoディレクトリに移動
 &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; d &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;find . -type d &lt;span class="p"&gt;|&lt;/span&gt; grep -E -v &lt;span class="s2"&gt;&amp;quot;^\.&lt;/span&gt;$&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
@@ -36,7 +37,7 @@ commitした後、きりがよいとき、PC再起動のタイミング &lt;a cl
         sh -c &lt;span class="s2"&gt;&amp;quot;cd &lt;/span&gt;&lt;span class="nv"&gt;$d&lt;/span&gt;&lt;span class="s2"&gt;; cp &lt;/span&gt;&lt;span class="nv"&gt;$archive&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$to&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="k"&gt;done&lt;/span&gt;
 &lt;/pre&gt;
-&lt;p&gt;その後、圧縮ファイルを展開しました。
+&lt;p&gt;その後、まとめた圧縮ファイルを展開しました。
 最後に、以下のように各スナップショットをGitBucketにpushしていきました。
 GitBucketではGitHub APIを使用可能なため、それを利用してリポジトリ作成をしました。&lt;/p&gt;
 &lt;pre class="code bash literal-block"&gt;
@@ -63,6 +64,7 @@ GitBucketではGitHub APIを使用可能なため、それを利用してリポ�
                 git push origin &amp;lt;branch_name&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="k"&gt;done&lt;/span&gt;
 &lt;/pre&gt;
+&lt;p&gt;以上&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="url"&gt;
 &lt;h2&gt;5&amp;nbsp;&amp;nbsp;&amp;nbsp;参考URL&lt;/h2&gt;
@@ -70,10 +72,17 @@ GitBucketではGitHub APIを使用可能なため、それを利用してリポ�
 &lt;/div&gt;
 &lt;div class="section" id="section-5"&gt;
 &lt;h2&gt;6&amp;nbsp;&amp;nbsp;&amp;nbsp;脚注&lt;/h2&gt;
-&lt;table class="docutils footnote" frame="void" id="footnote-1" rules="none"&gt;
+&lt;table class="docutils footnote" frame="void" id="f1" rules="none"&gt;
 &lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
 &lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#footnote-reference-1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;cite&gt;/tmp&lt;/cite&gt; 上で開発する習慣があるためバックアップしないと再起動時に消えてしまう。&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#footnote-reference-1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;cite&gt;/tmp&lt;/cite&gt; 上で開発する習慣 &lt;a class="footnote-reference" href="#f2" id="footnote-reference-2"&gt;[2]&lt;/a&gt; がありバックアップしないと再起動時に消えてしまう。&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="f2" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#footnote-reference-2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;HDD・SSD・eMMC等寿命があるストレージの余命を少しでも伸ばすため。
+効果は不明。&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/div&gt;
@@ -81,6 +90,7 @@ GitBucketではGitHub APIを使用可能なため、それを利用してリポ�
 &lt;h2&gt;7&amp;nbsp;&amp;nbsp;&amp;nbsp;更新履歴&lt;/h2&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;em&gt;2022-07-18 新規作成&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2022-07-18 追記、修正&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 </content><category term="tech"></category><category term="development"></category><category term="gitbucket"></category></entry><entry><title>QEMU 6.1以降でVirgil GPUが使用できなかった問題を解決</title><link href="https://blog.kot.jp/fix_problem_that_cannot_use_virgil_gpu_on_qemu_6.1_or_later.html" rel="alternate"></link><published>2022-01-31T23:15:00+09:00</published><updated>2022-02-01T21:00:00+09:00</updated><author><name>Rinwasyu</name></author><id>tag:blog.kot.jp,2022-01-31:/fix_problem_that_cannot_use_virgil_gpu_on_qemu_6.1_or_later.html</id><summary type="html">&lt;p class="first last"&gt;QEMU 6.1以降で仮想GPUのVirgil GPUが使用できなかった問題を解決しました。&lt;/p&gt;

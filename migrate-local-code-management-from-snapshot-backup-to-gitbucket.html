@@ -44,7 +44,7 @@
   <meta property="og:url" content="https://blog.kot.jp/migrate-local-code-management-from-snapshot-backup-to-gitbucket.html"/>
   <meta property="og:type" content="article"/>
   <meta property="article:published_time" content="2022-07-18 03:22:00+09:00"/>
-  <meta property="article:modified_time" content=""/>
+  <meta property="article:modified_time" content="2022-07-18 11:50:00+09:00"/>
   <meta property="article:author" content="https://blog.kot.jp/author/rinwasyu.html">
   <meta property="article:section" content="tech"/>
   <meta property="article:tag" content="development"/>
@@ -136,7 +136,7 @@
 そして、ある程度形になったものをcommitしてリモートリポジトリに反映しています。
 リモートリポジトリはGitHubやCodebergなどほぼgit管理のものを利用しています。
 しかし、ローカルPCではスナップショットバックアップをよく使用していました。
-commitした後、きりがよいとき、PC再起動のタイミング <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a> などに、</p>
+commitした後、きりがよいとき、PC再起動のタイミング <a class="footnote-reference" href="#f1" id="footnote-reference-1">[1]</a> などに、</p>
 <pre class="code text literal-block">
 &lt;project_name&gt;-snapshot-YYYYMMDD-HHMM.tar.xz
 </pre>
@@ -145,12 +145,13 @@ commitした後、きりがよいとき、PC再起動のタイミング <a class
 </div>
 <div class="section" id="section-3">
 <h2>3&nbsp;&nbsp;&nbsp;移行先</h2>
-<p>Raspberry Pi 3 model BにてGitBucketを動作させていたため、利用することにしました。</p>
+<p>ローカル環境Raspberry Pi 3 model BにてGitBucketが動いており、これを利用しました。</p>
 </div>
 <div class="section" id="section-4">
 <h2>4&nbsp;&nbsp;&nbsp;移行作業</h2>
 <p>メインで使用しているPCには20個ほどプロジェクトがあり、手作業で移行は大変でした。
 そのため、ある程度自動化しました。</p>
+<p>まず、バックアップしている各プロジェクトの最新スナップショットを一ヶ所にまとめました。</p>
 <pre class="code bash literal-block">
 <span class="c1"># ./&lt;project_name&gt;-snapshots/ 内の最新スナップショットをtoディレクトリに移動
 </span><span class="k">for</span> d <span class="k">in</span> <span class="k">$(</span>find . -type d <span class="p">|</span> grep -E -v <span class="s2">&quot;^\.</span>$<span class="s2">&quot;</span><span class="k">)</span><span class="p">;</span>
@@ -162,7 +163,7 @@ commitした後、きりがよいとき、PC再起動のタイミング <a class
         sh -c <span class="s2">&quot;cd </span><span class="nv">$d</span><span class="s2">; cp </span><span class="nv">$archive</span><span class="s2"> </span><span class="nv">$to</span><span class="s2">&quot;</span><span class="p">;</span>
 <span class="k">done</span>
 </pre>
-<p>その後、圧縮ファイルを展開しました。
+<p>その後、まとめた圧縮ファイルを展開しました。
 最後に、以下のように各スナップショットをGitBucketにpushしていきました。
 GitBucketではGitHub APIを使用可能なため、それを利用してリポジトリ作成をしました。</p>
 <pre class="code bash literal-block">
@@ -189,6 +190,7 @@ GitBucketではGitHub APIを使用可能なため、それを利用してリポ�
                 git push origin &lt;branch_name&gt;&quot;</span><span class="p">;</span>
 <span class="k">done</span>
 </pre>
+<p>以上</p>
 </div>
 <div class="section" id="url">
 <h2>5&nbsp;&nbsp;&nbsp;参考URL</h2>
@@ -196,10 +198,17 @@ GitBucketではGitHub APIを使用可能なため、それを利用してリポ�
 </div>
 <div class="section" id="section-5">
 <h2>6&nbsp;&nbsp;&nbsp;脚注</h2>
-<table class="docutils footnote" frame="void" id="footnote-1" rules="none">
+<table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-1">[1]</a></td><td><cite>/tmp</cite> 上で開発する習慣があるためバックアップしないと再起動時に消えてしまう。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-1">[1]</a></td><td><cite>/tmp</cite> 上で開発する習慣 <a class="footnote-reference" href="#f2" id="footnote-reference-2">[2]</a> がありバックアップしないと再起動時に消えてしまう。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-2">[2]</a></td><td>HDD・SSD・eMMC等寿命があるストレージの余命を少しでも伸ばすため。
+効果は不明。</td></tr>
 </tbody>
 </table>
 </div>
@@ -207,6 +216,7 @@ GitBucketではGitHub APIを使用可能なため、それを利用してリポ�
 <h2>7&nbsp;&nbsp;&nbsp;更新履歴</h2>
 <ul class="simple">
 <li><em>2022-07-18 新規作成</em></li>
+<li><em>2022-07-18 追記、修正</em></li>
 </ul>
 </div>
 
